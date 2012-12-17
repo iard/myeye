@@ -1,0 +1,59 @@
+.nav li {
+	text-align: right;
+}
+
+.margin-top {
+	margin-top: 40px;
+}
+
+#video-note {
+	padding: 20px 20px 0px 20px;
+	background-color: #eeeeee;
+	border: 1px solid #e3e3e3;
+	margin-left:0px;
+	-webkit-border-radius: 0px 0px 4px 4px;
+	-moz-border-radius: 0px 0px 4px 4px;
+	border-radius: 0px 0px 4px 4px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+	-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+#head-note h3,
+#head-note h5 {
+	margin: 0px;
+}
+
+.row-comment {
+	margin-bottom: 10px; 
+	padding-top:10px;
+	border-top: 1px solid #eeeeee;
+}
+
+#comment-submit {
+	margin-right: 10px;
+}
+
+.thumbnail {
+	position:relative;
+}
+
+.vid-set,
+.add-rm-like,
+.add-rm-wl,
+.rm-ply,
+.ply-set
+{
+	position:absolute;
+	top:10px;
+	right:10px;
+}
+
+#small-profile h3, 
+#small-profile h5 {
+	margin : 0px;
+}
+
+.pic-picker {
+	padding: 4px 1px;
+}

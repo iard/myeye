@@ -1,0 +1,64 @@
+Admin
+
+	Home				/home
+
+	User				/user/user_id
+		- Profile		/user/user_id
+		- MyVideo		/video/user_id
+		- Like			/like/user_id
+		- WatchLater	/watchlater/user_id
+		- Playlist		/playlist/user_id
+		- Channel		/channels/user_id
+
+	Category			/category
+		- Movies		/category/movie
+		- Tutorial		/category/tutorial
+
+	Channel 			/channel
+		- Box Office	/channel/box-office
+		- Tutorial 		/channel/tutorial
+		- TV Series		/channel/tv-series
+
+	Upload				/upload
+
+	Signout				/signout
+
+
+Member
+
+	Home				/home
+
+	User				/user/user_id
+		- Profile		/user/user_id
+		- Like			/like/user_id
+		- WatchLater	/watchlater/user_id
+		- Playlist		/playlist/user_id
+
+	Category			/category
+		- Movies		/category/movie
+		- Tutorial		/category/tutorial
+
+	Channel 			/channel
+		- Box Office	/channel/box-office
+		- Tutorial 		/channel/tutorial
+		- TV Series		/channel/tv-series
+
+	Signout				/signout
+
+
+Guest
+
+	Home				/home
+
+	Category			/category
+		- Movies		/category/movie
+		- Tutorial		/category/tutorial
+
+	Channel 			/channel
+		- Box Office	/channel/box-office
+		- Tutorial 		/channel/tutorial
+		- TV Series		/channel/tv-series
+
+	Signin				/signin
+
+	Signup				/signup
