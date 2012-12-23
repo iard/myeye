@@ -15,6 +15,9 @@ if ($user_playlist === FALSE) {
 	echo ("<p>No playlist</p>");
 } else {
 	echo '<ul class="thumbnails">';
+	if ($own_profile === TRUE) {
+		echo '<button class="btn btn-small btn-primary pull-right" id="create-ply"><i class="icon-plus-sign icon-white"></i> Create playlist</button>';
+	}
 	foreach ($user_playlist as $row): ?>
 		<li class="span3">
 			<div class="thumbnail">

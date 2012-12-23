@@ -36,8 +36,8 @@ class Video extends CI_Controller {
 
 		$data['video'] = $this->_authorized($video_id);
 
-		$vid = realpath('./vid/'.$data['video']->video_url);
-		$movie = new ffmpeg_movie($vid);
+		//$vid = realpath('./vid/'.$data['video']->video_url);
+		//$movie = new ffmpeg_movie($vid);
 
 		$multiply = ($data['video']->frame_count - 10) / 100;
 
@@ -45,7 +45,7 @@ class Video extends CI_Controller {
 		{
 			$frame_number[$i] = floor($i * $multiply);
 			$file_name = $video_id.$frame_number[$i].'.jpg';
-			$frame = $movie->getFrame($frame_number[$i]);
+			/*$frame = $movie->getFrame($frame_number[$i]);
 			imagejpeg($frame->toGDImage(), './temp/'.$file_name);
 
 			$config['source_image']	= './temp/'.$file_name;
@@ -54,11 +54,14 @@ class Video extends CI_Controller {
 			$config['height'] = 360;
 
 			$this->image_lib->initialize($config); 
-			$this->image_lib->resize();
+			$this->image_lib->resize();*/
 		}
 		
 		$this->load->model('subtitle_db');
-		$data['available_lang'] = $this->subtitle_db->get_sub_language();
+		$data['sub_lang'] = $this->subtitle_db->get_sub_language();
+		$this->load->model('category_db');
+		$data['vid_cat_list'] = $this->category_db->get_category();
+		$data['vid_cat'] = $this->category_db->get_video_category_join_category($video_id);
 		$data['vid_sub'] = $this->subtitle_db->get_video_sub($video_id);
 		$data['frame_number'] = $frame_number;
 
@@ -90,14 +93,6 @@ class Video extends CI_Controller {
 			{
 				unlink('./img/screenshot/big/'.$video->screenshot_url);
 				unlink('./img/screenshot/small/'.$video->screenshot_url);
-				$files = glob('./temp/'.$video->video_id.'*'); 
-				foreach($files as $file)
-				{
-					if(is_file($file))
-					{
-						unlink($file); 
-					}
-				}
 
 				$file_name = strtolower(random_string('alnum', 32)).".jpg";
 				$vid = realpath('./vid/'.$video->video_url);
@@ -118,6 +113,17 @@ class Video extends CI_Controller {
 			{
 				$file_name = NULL;
 			}
+
+			/*
+			$files = glob('./temp/'.$video->video_id.'*'); 
+			foreach($files as $file)
+			{
+				if(is_file($file))
+				{
+					unlink($file); 
+				}
+			}
+			*/
 
 			$this->load->model('video_db');
 			$this->video_db->edit_video_des($video_id, $title, $file_name, $note);
@@ -169,14 +175,62 @@ class Video extends CI_Controller {
 
 	public function del_sub()
 	{
-		$video_id = $this->input->post('vid_id');
-		$video = $this->_authorized($video_id);
-
 		$subtitle_id = $this->input->post('sub_id');
+
 		$this->load->model('subtitle_db');
+		$subtitle = $this->subtitle_db->get_sub($subtitle_id);
+		$video = $this->_authorized($subtitle->video_id);
+
 		$this->subtitle_db->del_video_sub($subtitle_id);
 
 		echo json_encode(array('success' => TRUE));
+	}
+
+	public function add_category()
+	{
+		$video_id = $this->input->post('vid_id');
+		$video = $this->_authorized($video_id);
+		$category = ucfirst(strtolower($this->input->post('category')));
+
+		$this->load->model('category_db');
+		$been_there = $this->category_db->get_category_video($video_id, $category);
+
+		if ($been_there === FALSE)
+		{
+			$this->load->model('category_db');
+			$data = $this->category_db->add_category($category, $video_id);
+		
+			$send['success'] = TRUE;
+			$send['message'] = '<div class="label">'.$data->category.' <button type="button" class="close" style=" position:static; float:none;" value="'.$data->category_video_id.'" data-dismiss="alert">&times;</button></div>';
+		} 
+		else 
+		{
+			$send['success'] = FALSE;
+			//$send['message'] = ;
+		}
+		echo json_encode($send);
+	}
+
+	public function del_category()
+	{
+		$category_video_id = $this->input->post('cat_vid_id');
+
+		$this->load->model('category_db');
+		$category_video = $this->category_db->get_video_category($category_video_id);
+		$video = $this->_authorized($category_video->video_id);
+
+		$this->category_db->del_video_category($category_video_id);
+	}
+
+	public function del_video()
+	{
+		$video_id = $this->input->post('vid_id');
+		$video = $this->_authorized($video_id);
+
+		$this->load->model('video_db');
+		$this->video_db->delete_video($video_id);
+
+		echo TRUE;
 	}
 
 	public function framerate_check($numb)

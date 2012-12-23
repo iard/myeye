@@ -19,12 +19,16 @@
 			$("#playlist").load("<?php echo base_url('playlist/settings')?>", { 'ply_id' : plySetBtn.val()});
 			return false;
 		});
+		$("#playlist").on('click', '#create-ply', function() {
+			$('#playlist').load("<?php echo base_url('playlist/create')?>");
+			return false;
+		});
 		$("#myvideo").on('click', '.vid-set', function() { var vidSetBtn = $(this);
-			$('#myvideo').load("<?php echo base_url('video/settings/')?>", { 'vid_id' : vidSetBtn.val()});
+			$('#myvideo').load("<?php echo base_url('video/settings')?>", { 'vid_id' : vidSetBtn.val()});
 			return false;
 		});
 		$("#myvideo").on('click', '#back-to-myvid', function() {
-			$('#myvideo').load("<?php echo base_url('user/video/')?>");
+			$('#myvideo').load("<?php echo base_url('user/video')?>");
 			return false;
 		});
 		<?php } ?>

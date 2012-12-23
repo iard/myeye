@@ -184,55 +184,6 @@ class Watch extends CI_Controller
 		}
 	}
 	
-	/*public function search_category() //mark
-	{
-		$term = $this->input->get('term');
-		//for expert hilangkan pilihan kategori yang telah dimiliki oleh video
-		$this->load->model('category_db');
-		$data = $this->category_db->get_category_term($term);
-		
-		echo json_encode($data);
-	}
-	
-	public function add_category() //mark
-	{
-		$video_id = $this->input->post('video_id');
-		$category = ucfirst(strtolower($this->input->post('category')));
-		
-		$this->_user_loggin_validation();
-		$this->_existing_video_and_owner_validation($video_id);
-		
-		$this->load->model('category_db');
-		$valid = $this->category_db->get_category_video($video_id, $category);
-		if ($valid === FALSE){
-			$this->load->model('category_db');
-			$data['category'] = $this->category_db->add_category($category, $video_id);
-		
-			$this->load->view('watch/part/category_update', $data);
-		} else {
-			return FALSE;
-		}
-	}
-	
-	public function del_category() //mark
-	{
-		$category_video_id = $this->input->post('category_id');
-
-		$this->load->model('category_db');
-		$category_video = $this->category_db->get_video_category($category_video_id);
-		
-		if ($category_video === FALSE){
-			redirect('home');//page not found
-		} else {
-			$this->_existing_video_and_owner_validation($category_video->video_id);
-		}
-		
-		$this->load->model('category_db');
-		$this->category_db->del_video_category($category_video_id);
-		
-		return TRUE;
-	}*/
-	
 	public function check_uncheck_playlist()
 	{
 		$video_id = $this->input->post('video_id');

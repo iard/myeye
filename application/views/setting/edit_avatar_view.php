@@ -14,7 +14,7 @@
 				dataType : 'json',
 				success : function(data, status) {
 					if(data.success) {
-						$('#back-to-profile').trigger('click');
+						$('#back-to-profile').click();
 					} else {
 						$('#message').html('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">&times;</button>' + data.message + '</div>');
 					}

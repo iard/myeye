@@ -1,7 +1,7 @@
 <?php
 if ($vid_sub === FALSE)
 {
-	echo '<p>No subtitle for this video</p>';
+	echo '<p style="margin-bottom:20px">No subtitle for this video</p>';
 }
 else
 {

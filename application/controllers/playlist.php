@@ -97,33 +97,37 @@ class Playlist extends CI_Controller
 		$this->load->view('playlist/playlist_view', $data);
 	}
 
-	public function create() //
+	public function create()
 	{
-		$this->_user_loggin_validation();
+		$user = $this->_user_loggin_validation();
 		
-		$data['user'] = $this->session->all_userdata();
-		
-		$this->load->view('playlist/create_playlist_view', $data);
+		$this->load->view('playlist/create_playlist');
 	}
 
-	public function create_playlist() //
+	public function create_playlist()
 	{
-		$this->_user_loggin_validation();
+		$user = $this->_user_loggin_validation();
 		
 		$this->form_validation->set_rules('title', 'Title', 'required|min_length[4]|max_length[20]');
 		$this->form_validation->set_rules('note', 'Note', 'min_length[6]');
 		
-		if ($this->form_validation->run() === FALSE){
-			echo validation_errors();
-		} else {
+		if ($this->form_validation->run() === FALSE)
+		{
+			$send['success'] = FALSE;
+			$send['message'] = validation_errors('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">&times;</button>', '</div>');
+		} 
+		else 
+		{
 			$title = $this->input->post('title');
 			$note = $this->input->post('note');
 			
 			$this->load->model('playlist_db');
 			$this->playlist_db->create_playlist($this->_get_id(), $this->session->userdata('user_id'), $title, $note);
-			
-			redirect('playlist/user_id/'.$this->session->userdata('user_id'));
+
+			$send['success'] = TRUE;
+			//$send['message'] = ;
 		}
+		echo json_encode($send);
 	}
 	
 	public function settings()

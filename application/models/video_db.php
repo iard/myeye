@@ -9,10 +9,12 @@ class Video_db extends CI_Model {
 		$this->db->where('video_id', $video_id);
 		$query = $this->db->get();
 		
-		if ($query->num_rows() > 0){
-			$data= $query->row(); 
-			return $data;
-		} else {
+		if ($query->num_rows() > 0)
+		{
+			return $query->row(); 
+		} 
+		else 
+		{
 			return FALSE;
 		}	
 	}
@@ -63,5 +65,36 @@ class Video_db extends CI_Model {
 		} else {
 			return FALSE;
 		}
+	}
+
+	function delete_video($video_id)
+	{
+		$query = $this->db->get_where('video', array('video_id' => $video_id));
+
+		$video = $query->row();
+
+		unlink('./vid/'.$video->video_url);
+		unlink('./img/screenshot/big/'.$video->screenshot_url);
+		unlink('./img/screenshot/small/'.$video->screenshot_url);
+
+		$query = $this->db->get_where('subtitle', array('video_id' => $video_id));
+
+		if ($query->num_rows() > 0)
+		{
+			foreach ($query->result() as $row)
+			{
+				unlink('./sub/'.$row->subtitle_url);
+			}
+		}
+
+		$this->db->delete('category_video', array('video_id' => $video_id)); 
+		$this->db->delete('channel_video', array('video_id' => $video_id)); 
+		$this->db->delete('comment', array('video_id' => $video_id)); 
+		$this->db->delete('like', array('video_id' => $video_id)); 
+		$this->db->delete('played', array('video_id' => $video_id)); 
+		$this->db->delete('playlist_video', array('video_id' => $video_id)); 
+		$this->db->delete('subtitle', array('video_id' => $video_id));
+		$this->db->delete('watch_later', array('video_id' => $video_id));
+		$this->db->delete('video', array('video_id' => $video_id));
 	}
 }

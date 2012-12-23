@@ -23,12 +23,30 @@ class Subtitle_db extends CI_Model{
 	{
 		$query = $this->db->get('subtitle_language');
 		
-		if ($query->num_rows() > 0){
-			foreach ($query->result() as $row){
+		if ($query->num_rows() > 0)
+		{
+			foreach ($query->result() as $row)
+			{
 				$data[$row->subtitle_language_id] = $row->language;
 			}
 			return $data; 
-		} else {
+		} 
+		else 
+		{
+			return FALSE;
+		}
+	}
+
+	function get_sub($subtitle_id)
+	{
+		$query = $this->db->get_where('subtitle', array('subtitle_id' => $subtitle_id));
+		
+		if ($query->num_rows() > 0)
+		{
+			return $query->row(); 
+		} 
+		else 
+		{
 			return FALSE;
 		}
 	}
@@ -41,8 +59,10 @@ class Subtitle_db extends CI_Model{
 
 		$query = $this->db->get();
 
-		if ($query->num_rows() > 0) {
-			foreach ($query->result() as $row) {
+		if ($query->num_rows() > 0) 
+		{
+			foreach ($query->result() as $row) 
+			{
 				unlink('./sub/'.$row->subtitle_url);
 				$this->db->delete('subtitle', array('subtitle_id' => $row->subtitle_id));
 			}
@@ -63,11 +83,10 @@ class Subtitle_db extends CI_Model{
 
 		$query = $this->db->get();
 
-		if ($query->num_rows() > 0) {
-			foreach ($query->result() as $row) {
-				unlink('./sub/'.$row->subtitle_url);
-				$this->db->delete('subtitle', array('subtitle_id' => $row->subtitle_id));
-			}
+		if ($query->num_rows() > 0) 
+		{
+			unlink('./sub/'.$query->row()->subtitle_url);
+			$this->db->delete('subtitle', array('subtitle_id' => $row->subtitle_id));
 		}
 	}
 }
